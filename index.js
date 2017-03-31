@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+var GitHubApi = require('github');
 const app = express();
 
 const API_BASE = 'https://api.github.com/';
@@ -8,17 +9,25 @@ const headers = {
     'Accept': 'application/vnd.github.v3.star+json'
 };
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
+app.get('/starredRepos/:username/:page', (req, res) => {
+    const { username, page } = req.params;
+    var github = new GitHubApi({
+        headers
+    });
+    github.activity.getStarredReposForUser({username, page}, (err, response) => res.json(response));
+});
+
 app.get('/repos/:username/:pageCount', async (req, res) => {
     const { username, pageCount } = req.params;
-    const response = await fetch(`${API_BASE}users/${username}/starred?page=${pageCount}`, {headers})
+    const response = await fetch(`${API_BASE}users/${username}/starred?page=${pageCount}`, { headers })
     const data = await response.json();
     res.json(data);
 });
