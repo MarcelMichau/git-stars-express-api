@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -13,9 +14,15 @@
   "author": "marcelmichau",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "github": "^9.2.0",
-    "node-fetch": "^1.6.3"
+    "node-fetch": "^1.6.3",
+    "passport": "^0.3.2",
+    "passport-github": "^1.1.0"
   }
 }
